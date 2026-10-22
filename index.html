@@ -158,9 +158,10 @@ addEventListener('scroll',onScroll,{passive:true});onScroll();
  if(!rm){warm();}
  (function draw(){
   sp=rm?scrollP:sp+(scrollP-sp)*.07;
+  var pp=Math.min(1,sp/0.38);
   try{
-   if(videoOK&&vid.duration>0){vid.currentTime=Math.max(0,Math.min(vid.duration-.06,sp*(vid.duration-.06)));}
-   var f=sp*(FR-1),a=Math.floor(f),t=f-a;
+   if(videoOK&&vid.duration>0){vid.currentTime=Math.max(0,Math.min(vid.duration-.06,pp*(vid.duration-.06)));}
+   var f=pp*(FR-1),a=Math.floor(f),t=f-a;
    var im=imgs[a];
    ctx.fillStyle='#161210';ctx.fillRect(0,0,cv.width,cv.height);
    if(im.complete&&im.naturalWidth)fit(im,mx*.012,-my*.01);
