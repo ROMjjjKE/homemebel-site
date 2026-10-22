@@ -1,333 +1,231 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>HOME MEBEL — мебель, которая живёт с вами · Жодино, Борисов, Смолевичи</title><meta name="description" content="Салон мебели Home Мебель: Anrex, Black Red White, SV Мебель, ЭОС. Более 5000 элементов мебели без дилерских наценок. Рассрочка до 6 месяцев, кредит до 3 лет, гарантия до 36 месяцев. Жодино, Борисов, Смолевичи. +375 (29) 137-88-77"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@500;600;700&family=Manrope:wght@400;500;600;800&display=swap" rel="stylesheet"><style>
-:root{--espresso:#131010;--wood:#1E1915;--cream:#EFE9E2;--caramel:#C89B6A;--caramel-hot:#E0B183;--line:rgba(239,233,226,.14);--dim:#9C948B}
-*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}html.lenis{scroll-behavior:auto}body{font-family:'Manrope',sans-serif;background:var(--espresso);color:var(--cream);line-height:1.65;overflow-x:hidden}a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
-::selection{background:var(--caramel);color:#131010}
-.serif{font-family:'Cormorant',serif}
-/* зерно */
-.grain{position:fixed;inset:-100px;pointer-events:none;z-index:90;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 7s steps(8) infinite}
-@keyframes grain{0%,100%{transform:translate(0,0)}20%{transform:translate(-40px,30px)}40%{transform:translate(30px,-50px)}60%{transform:translate(-30px,-20px)}80%{transform:translate(40px,40px)}}
-/* WebGL фон */
-#gl{position:fixed;inset:0;z-index:0;pointer-events:none}
-.page{position:relative;z-index:2}
-/* прелоадер */
-#loader{position:fixed;inset:0;z-index:200;background:var(--espresso);display:grid;place-items:center;transition:transform 1s cubic-bezier(.76,0,.24,1)}
-#loader .lname{font-family:'Cormorant',serif;font-size:clamp(1.6rem,5vw,3.2rem);letter-spacing:.14em;text-transform:uppercase;color:var(--cream)}
-#loader .lname i{color:var(--caramel);font-style:italic}
-#loader .lpct{position:absolute;bottom:2rem;left:2rem;font-size:.72rem;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
-#loader .lpct b{color:var(--caramel);font-weight:800;font-size:inherit}
-#loader.done{transform:translateY(-101%)}
-/* курсор */
-.cur,.cur-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:300;border-radius:50%;mix-blend-mode:difference;display:none}
-.cur{width:8px;height:8px;background:#fff}
-.cur-ring{width:38px;height:38px;border:1.5px solid #fff;transition:width .25s,height .25s}
-@media(hover:hover) and (pointer:fine){.cur,.cur-ring{display:block}}
-/* шапка */
-.head{position:fixed;inset:0 0 auto;z-index:100;padding:1.1rem 2rem;display:flex;justify-content:space-between;align-items:center;mix-blend-mode:difference}
-.brand{font-family:'Cormorant',serif;font-size:1.25rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
-.brand i{color:var(--caramel);font-style:italic}
-.menu{display:flex;gap:1.6rem;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(239,233,226,.75)}
-.menu a{position:relative;padding:.2rem 0}
-.menu a:after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--cream);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.76,0,.24,1)}
-.menu a:hover:after{transform:scaleX(1);transform-origin:left}
-@media(max-width:900px){.menu{display:none}}
-/* hero */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 2rem;position:relative}
-.h-kick{font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;color:var(--caramel);margin-bottom:1.6rem}
-h1.hero-t{font-family:'Cormorant',serif;font-weight:600;font-size:clamp(3rem,10.5vw,9.5rem);line-height:.98;letter-spacing:.01em;max-width:12ch}
-h1 .c{display:inline-block;will-change:transform}
-h1 .ital{font-style:italic;color:var(--caramel)}
-.h-sub{max-width:44ch;color:var(--dim);margin-top:2rem;font-size:.92rem}
-.h-cta{margin-top:2.4rem;display:flex;gap:1rem;flex-wrap:wrap}
-.mbtn{display:inline-block;background:var(--caramel);color:var(--espresso);font-weight:800;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;padding:1.1rem 2.2rem;will-change:transform}
-.mbtn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
-.h-scroll{position:absolute;bottom:2rem;right:2rem;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);writing-mode:vertical-rl}
-.h-scroll:after{content:'';display:block;width:1px;height:44px;background:var(--caramel);margin:1rem auto 0;animation:drip 2.2s ease-in-out infinite}
-@keyframes drip{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-/* марки */
-.marq{border-block:1px solid var(--line);padding:1.1rem 0;overflow:hidden;background:rgba(19,16,16,.5)}
-.marq-in{display:flex;gap:3.4rem;width:max-content;animation:roll 26s linear infinite;white-space:nowrap}
-.marq-in span{font-family:'Cormorant',serif;font-size:1.5rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(239,233,226,.55)}
-.marq-in span i{color:var(--caramel);font-style:normal;margin-right:3.4rem}
-@keyframes roll{to{transform:translateX(-50%)}}
-/* секции */
-.section{padding:8rem 2rem;position:relative}
-.s-kick{font-size:.66rem;letter-spacing:.32em;text-transform:uppercase;color:var(--caramel);margin-bottom:1.4rem}
-h2{font-family:'Cormorant',serif;font-weight:600;font-size:clamp(2.2rem,6vw,5rem);line-height:1.02;letter-spacing:.01em}
-h2 .ital{font-style:italic;color:var(--caramel)}
-/* комнаты: горизонтальный пин */
-#rooms{padding:0}
-.rooms-head{padding:6rem 2rem 3rem}
-.rooms-pin{overflow:hidden}
-.rooms-track{display:flex;width:max-content;will-change:transform}
-.room{width:78vw;height:82vh;flex:none;margin-right:4vw;position:relative;display:grid;align-content:end;padding:2rem}
-@media(max-width:900px){.room{width:88vw;height:70vh}}
-.room img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.82)}
-.room .r-in{position:relative;background:rgba(19,16,16,.55);backdrop-filter:blur(6px);padding:1.4rem 1.6rem;max-width:34rem}
-.room .r-n{font-size:.62rem;letter-spacing:.3em;color:var(--caramel);text-transform:uppercase}
-.room .r-t{font-family:'Cormorant',serif;font-size:clamp(1.6rem,3.4vw,2.6rem);line-height:1.05;margin-top:.4rem}
-.room .r-d{color:rgba(239,233,226,.75);font-size:.85rem;margin-top:.5rem}
-@media(max-width:900px){.rooms-track{flex-direction:column;width:auto}.room{width:100%;height:64vh;margin:0 0 1.5rem}}
-/* цифры */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;border-block:1px solid var(--line);padding:3.4rem 2rem}
-.stat b{font-family:'Cormorant',serif;font-weight:600;font-size:clamp(2.6rem,6vw,5rem);color:var(--caramel);display:block;line-height:1}
-.stat span{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);display:block;margin-top:.6rem}
-@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}}
-/* преимущества — редакционные строки */
-.adv{max-width:1200px;margin:0 auto}
-.adv-row{display:grid;grid-template-columns:6rem 1fr;gap:2rem;padding:2.2rem 0;border-top:1px solid var(--line);align-items:baseline;transition:.35s}
-.adv-row:hover{background:linear-gradient(90deg,rgba(200,155,106,.07),transparent 60%)}
-.adv-row .an{font-family:'Cormorant',serif;font-size:1.6rem;color:var(--caramel)}
-.adv-row b{font-family:'Cormorant',serif;font-weight:600;font-size:clamp(1.3rem,2.6vw,2rem);display:block}
-.adv-row p{color:var(--dim);font-size:.88rem;margin-top:.4rem;max-width:56ch}
-/* акции */
-.promos{display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:1200px;margin:0 auto}
-.promo{border:1px solid var(--caramel);padding:2.4rem;position:relative;background:rgba(30,25,21,.6);overflow:hidden}
-.promo:before{content:'АКЦИЯ';position:absolute;top:1rem;right:1rem;font-size:.56rem;letter-spacing:.3em;color:var(--caramel);border:1px solid var(--caramel);padding:.3rem .6rem}
-.promo b{font-family:'Cormorant',serif;font-weight:600;font-size:clamp(1.4rem,2.6vw,2rem);display:block;max-width:16ch}
-.promo p{color:var(--dim);font-size:.88rem;margin-top:.7rem;max-width:40ch}
-@media(max-width:900px){.promos{grid-template-columns:1fr}}
-/* финансирование */
-.finance{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);max-width:1200px;margin:0 auto}
-.fin{background:var(--wood);padding:2.6rem 2rem;transition:background .3s}
-.fin:hover{background:#251E17}
-.fin .fv{font-family:'Cormorant',serif;font-size:clamp(2rem,4vw,3.2rem);color:var(--caramel);line-height:1}
-.fin b{display:block;margin-top:1rem;font-size:.9rem}
-.fin p{color:var(--dim);font-size:.8rem;margin-top:.4rem}
-@media(max-width:900px){.finance{grid-template-columns:1fr}}
-/* салоны */
-.stores{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1200px;margin:0 auto}
-.store{border-top:2px solid var(--caramel);padding-top:1.4rem}
-.store .st-c{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--caramel)}
-.store h3{font-family:'Cormorant',serif;font-weight:600;font-size:1.9rem;margin-top:.5rem}
-.store p{color:var(--dim);font-size:.8rem;margin-top:.6rem}
-.store a{color:var(--cream);display:block;padding:.15rem 0;font-size:.88rem}
-.store a:hover{color:var(--caramel)}
-@media(max-width:900px){.stores{grid-template-columns:1fr}}
-/* CTA */
-.cta{text-align:center;padding:10rem 2rem}
-.cta h2{font-size:clamp(2.6rem,7vw,6.4rem)}
-.cta .mbtn{margin-top:2.4rem}
-footer{border-top:1px solid var(--line);padding:2rem;font-size:.72rem;color:var(--dim);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;position:relative;z-index:2}
-footer a{color:var(--cream)}
-/* водяной знак */
-.wm{position:fixed;right:14px;bottom:14px;z-index:95;background:rgba(19,16,16,.75);color:var(--cream);font-size:.62rem;letter-spacing:.05em;padding:.4rem .7rem;border:1px solid var(--line);backdrop-filter:blur(4px)}
-.wm b{color:var(--caramel);font-weight:800}
-/* reveal по умолчанию: контент виден, gsap лишь улучшает */
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>HOME MEBEL — мебель, которая живёт с вами · Жодино, Борисов, Смолевичи</title><meta name="description" content="Салон мебели Home Мебель: Anrex, Black Red White, SV Мебель, ЭОС. Более 5000 элементов, рассрочка до 6 месяцев, кредит до 3 лет. Салоны в Жодино, Борисове, Смолевичах."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;800&family=PT+Mono&display=swap" rel="stylesheet"><style>
+:root{--bg:#141210;--bg2:#1B1714;--ink:#F5F0EC;--mut:#B3A79C;--caramel:#C89B6A;--caramel2:#D9AE7B;--line:rgba(245,240,236,.14)}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:auto}body{font-family:Manrope,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;overflow-x:hidden}a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{font:inherit;cursor:pointer}
+::selection{background:var(--caramel);color:#14100C}
+.serif{font-family:Cormorant,serif}
+.mono{font-family:'PT Mono',monospace}
+#bg3d{position:fixed;inset:0;z-index:0}
+.grain{position:fixed;inset:-50%;z-index:2;pointer-events:none;opacity:.5;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E");animation:grain 8s steps(10) infinite}
+@keyframes grain{0%{transform:translate(0,0)}50%{transform:translate(5%,3%)}100%{transform:translate(-3%,4%)}}
+#loader{position:fixed;inset:0;z-index:99;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;transition:none}
+#loader.done{transform:translateY(-100%);transition:transform 1s cubic-bezier(.76,0,.24,1)}
+.loader-num{font-family:'PT Mono',monospace;color:var(--caramel);letter-spacing:.08em}
+.loader-name{font-family:Cormorant,serif;font-weight:600;font-size:1.6rem;letter-spacing:.14em;color:var(--ink)}
+main{position:relative;z-index:3}
+.wrap{width:min(1200px,100% - 44px);margin:auto}
+header.site{position:fixed;top:0;left:0;right:0;z-index:40;padding:1.1rem 0}
+.site .row{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.brand{font-weight:800;letter-spacing:.12em;font-size:.95rem}
+.brand small{display:block;font-family:'PT Mono',monospace;font-size:.55rem;color:var(--mut);letter-spacing:.2em;margin-top:.15rem}
+nav.mainnav{display:flex;gap:1.6rem;font-size:.78rem;font-weight:600;color:var(--mut)}
+nav.mainnav a:hover{color:var(--caramel2)}
+.btn{display:inline-block;background:var(--caramel);color:#14100C;font-weight:800;font-size:.8rem;padding:.8rem 1.4rem;letter-spacing:.06em;border:0}
+.btn:hover{background:var(--caramel2)}
+.btn-o{display:inline-block;border:1px solid var(--line);color:var(--ink);font-weight:600;font-size:.8rem;padding:.8rem 1.4rem}
+.btn-o:hover{border-color:var(--caramel);color:var(--caramel2)}
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:7rem 0 4rem;position:relative}
+.kicker{font-family:'PT Mono',monospace;font-size:.66rem;letter-spacing:.3em;color:var(--caramel);text-transform:uppercase}
+h1.hero-t{font-family:Cormorant,serif;font-weight:600;font-size:clamp(2.5rem,8vw,6.2rem);line-height:1.04;letter-spacing:-.01em;margin-top:1.2rem;max-width:15ch}
+h1.hero-t .ital{font-style:italic;color:var(--caramel2)}
+h1.hero-t .ch-word{display:inline-block;white-space:nowrap;overflow:hidden;vertical-align:top}
+h1.hero-t .c{display:inline-block;will-change:transform}
+.hero-sub{color:var(--mut);max-width:52ch;margin-top:1.6rem;font-size:.92rem}
+.hero-cta{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2rem}
+.hero-hint{position:absolute;bottom:2rem;left:0;right:0;text-align:center;font-family:'PT Mono',monospace;font-size:.6rem;letter-spacing:.3em;color:var(--mut);text-transform:uppercase}
+.marquee{border-block:1px solid var(--line);padding:.9rem 0;overflow:hidden;position:relative;z-index:3;background:rgba(20,18,16,.5);backdrop-filter:blur(6px)}
+.marquee .in{display:flex;gap:3rem;white-space:nowrap;width:max-content;animation:mq 26s linear infinite;font-family:Cormorant,serif;font-size:1.05rem;letter-spacing:.18em;color:var(--mut)}
+.marquee .in b{color:var(--caramel2);font-weight:600}
+@keyframes mq{to{transform:translateX(-50%)}}
+.panel{background:rgba(24,20,17,.72);backdrop-filter:blur(12px);border:1px solid var(--line);padding:clamp(1.6rem,4vw,3.5rem)}
+section.blk{padding:clamp(4rem,9vh,7rem) 0;position:relative}
+.sec-k{font-family:'PT Mono',monospace;font-size:.64rem;letter-spacing:.3em;color:var(--caramel);text-transform:uppercase}
+h2.sec-t{font-family:Cormorant,serif;font-weight:600;font-size:clamp(1.9rem,4.6vw,3.3rem);line-height:1.08;margin-top:.9rem;max-width:22ch}
+h2.sec-t em{color:var(--caramel2)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2px;background:var(--line);border:1px solid var(--line)}
+.stat{background:var(--bg2);padding:1.6rem 1.3rem}
+.stat b{font-family:Cormorant,serif;font-size:clamp(2rem,4vw,3rem);font-weight:600;color:var(--caramel2);display:block;line-height:1}
+.stat span{font-size:.72rem;color:var(--mut);display:block;margin-top:.5rem}
+.rooms-cap{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin-top:2rem}
+.room-cap{border-left:2px solid var(--caramel);padding:.3rem 0 .3rem 1rem}
+.room-cap b{font-family:Cormorant,serif;font-size:1.15rem;font-weight:600}
+.room-cap span{display:block;font-size:.78rem;color:var(--mut);margin-top:.25rem}
+.conds{display:grid;gap:0;margin-top:2.5rem}
+.cond{display:grid;grid-template-columns:3.4rem 1fr;gap:1.4rem;padding:1.3rem 0;border-top:1px solid var(--line);align-items:baseline}
+.cond i{font-style:normal;font-family:Cormorant,serif;font-size:1.5rem;color:var(--caramel);font-weight:600}
+.cond b{font-weight:800;font-size:.95rem;display:block}
+.cond span{color:var(--mut);font-size:.82rem;display:block;margin-top:.25rem}
+.stock{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:2rem}
+.stock>div{background:var(--bg2);padding:1.8rem}
+.stock b{font-family:Cormorant,serif;font-size:1.35rem;font-weight:600;display:block}
+.stock b em{color:var(--caramel2)}
+.stock span{font-size:.8rem;color:var(--mut);display:block;margin-top:.5rem}
+.fin{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:2rem}
+.fin>div{background:var(--bg2);padding:1.6rem 1.4rem}
+.fin b{font-family:Cormorant,serif;font-size:1.9rem;font-weight:600;color:var(--caramel2)}
+.fin span{display:block;font-size:.78rem;color:var(--mut);margin-top:.4rem}
+.stores{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:2rem}
+.store{border:1px solid var(--line);padding:1.5rem;background:var(--bg2)}
+.store h3{font-family:Cormorant,serif;font-weight:600;font-size:1.3rem}
+.store p{font-size:.8rem;color:var(--mut);margin-top:.5rem}
+.store a.tel{display:inline-block;color:var(--caramel2);font-weight:800;margin-top:.6rem}
+.cta-final{text-align:center;padding:clamp(5rem,12vh,9rem) 0}
+.cta-final h2{font-family:Cormorant,serif;font-weight:600;font-size:clamp(2.2rem,6vw,4.6rem);line-height:1.05}
+.cta-final h2 em{color:var(--caramel2)}
+.cta-final p{color:var(--mut);margin-top:1rem}
+footer.site{position:relative;z-index:3;border-top:1px solid var(--line);background:rgba(20,18,16,.7);backdrop-filter:blur(8px);padding:2rem 0 4rem;font-size:.74rem;color:var(--mut)}
+footer.site .cols{display:flex;gap:2rem;flex-wrap:wrap;justify-content:space-between}
+.wm-badge{position:fixed;right:12px;bottom:12px;z-index:45;background:rgba(2,2,1,.55);color:#E8E2DC;border:1px solid rgba(245,240,236,.14);padding:.35rem .65rem;font-size:.62rem;letter-spacing:.05em;text-decoration:none;backdrop-filter:blur(4px)}
+.wm-badge b{color:var(--caramel2)}
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:60;border-radius:50%;mix-blend-mode:difference}
+.cursor-dot{width:6px;height:6px;background:#fff}
+.cursor-ring{width:34px;height:34px;border:1px solid rgba(255,255,255,.6);transition:width .25s,height .25s}
+@media(hover:none){.cursor-dot,.cursor-ring{display:none}}
+@media(max-width:760px){nav.mainnav{display:none}.stock{grid-template-columns:1fr}h1.hero-t{max-width:12ch}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body>
-<div id="loader"><div class="lname">HOME <i>MEBEL</i></div><div class="lpct"><b id="lpct">000</b>% out of 100% · Жодино · Борисов · Смолевичи</div></div>
-<canvas id="gl"></canvas>
-<div class="grain" aria-hidden="true"></div>
-<div class="cur"></div><div class="cur-ring"></div>
-<header class="head"><a class="brand" href="#top">HOME <i>MEBEL</i></a><nav class="menu"><a href="#rooms">Комнаты</a><a href="#adv">Почему мы</a><a href="#finance">Рассрочка</a><a href="#stores">Салоны</a></nav></header>
-<main class="page" id="top">
-<section class="hero">
-<p class="h-kick">Салон мебели и аксессуаров · с ценами от производителя</p>
-<h1 class="hero-t" id="heroT">Мебель, <span class="ital">которая</span> живёт с вами</h1>
-<p class="h-sub">Anrex, Black Red White, SV Мебель и ЭОС — более 5 000 элементов мебели европейского качества без дилерских наценок. Подберём под ваш бюджет; от продажи до доставки и сборки — полный сервис.</p>
-<div class="h-cta"><a class="mbtn" href="#rooms" data-mag>Выбрать мебель</a><a class="mbtn ghost" href="tel:+375291378877" data-mag>+375 (29) 137-88-77</a></div>
-<p class="h-scroll">скролл</p>
-</section>
-<div class="marq" aria-hidden="true"><div class="marq-in"><span>ANREX <i>·</i> BLACK RED WHITE <i>·</i> SV МЕБЕЛЬ <i>·</i> ЭОС <i>·</i> РАССРОЧКА ДО 6 МЕС <i>·</i> ГАРАНТИЯ 36 МЕС <i>·</i></span><span>ANREX <i>·</i> BLACK RED WHITE <i>·</i> SV МЕБЕЛЬ <i>·</i> ЭОС <i>·</i> РАССРОЧКА ДО 6 МЕС <i>·</i> ГАРАНТИЯ 36 МЕС <i>·</i></span></div></div>
-<section id="rooms">
-<div class="rooms-head"><p class="s-kick">Готовые комнатные решения</p><h2>Пройдитесь по дому, <span class="ital">не выходя из дома</span></h2></div>
-<div class="rooms-pin" id="roomsPin">
-<div class="rooms-track" id="roomsTrack">
-<div class="room"><img src="https://media.base44.com/images/public/6aa8d872c1bdf2ed579176f2/8e4143e66_generated_image.png" alt="Гостиная, визуализация"><div class="r-in"><span class="r-n">Комната 01</span><div class="r-t serif">Гостиная</div><p class="r-d">Коллекции Anrex Dylan и Diego, элементы декора и светильники — интерьер в сборе, а не каталог по частям.</p></div></div>
-<div class="room"><img src="https://media.base44.com/images/public/6aa8d872c1bdf2ed579176f2/33118695b_generated_image.png" alt="Спальня, визуализация"><div class="r-in"><span class="r-n">Комната 02</span><div class="r-t serif">Спальня</div><p class="r-d">Матрасы ЭОС и спальни ведущих брендов: купи матрас — получи подушку в подарок.</p></div></div>
-<div class="room"><img src="https://media.base44.com/images/public/6aa8d872c1bdf2ed579176f2/c3897997f_generated_image.png" alt="Кухня-столовая, визуализация"><div class="r-in"><span class="r-n">Комната 03</span><div class="r-t serif">Кухня и столовая</div><p class="r-d">Экологически чистые материалы и комплектующие, поставка на рынок Евросоюза — качество подтверждено сертификатами.</p></div></div>
-<div class="room"><img src="https://media.base44.com/images/public/6aa8d872c1bdf2ed579176f2/71f52df3d_generated_image.png" alt="Прихожая, визуализация"><div class="r-in"><span class="r-n">Комната 04</span><div class="r-t serif">Прихожая</div><p class="r-d">От бюджетной до высокой ценовой линейки — продуманный ассортимент под любой бюджет.</p></div></div>
-</div>
-</div>
-</section>
-<div class="stats">
-<div class="stat"><b data-count="5000">0</b><span>элементов мебели — ассортимент постоянно обновляется</span></div>
-<div class="stat"><b data-count="3">0</b><span>салона: Жодино, Борисов, Смолевичи</span></div>
-<div class="stat"><b data-count="36">0</b><span>месяцев гарантии на мебель</span></div>
-<div class="stat"><b data-count="2">0</b><span>дня — минимальный срок выполнения заказа</span></div>
-</div>
-<section class="section" id="adv">
-<p class="s-kick">Условия, которые мы создали для вас</p>
-<h2>Мы создали <span class="ital">комфортные</span> и выгодные условия</h2>
-<div class="adv" style="margin-top:3rem">
-<div class="adv-row"><span class="an">01</span><div><b>Без дилерских наценок</b><p>Первые поставщики в Беларуси: цены от производителя, а не «магазин + перекупщик».</p></div></div>
-<div class="adv-row"><span class="an">02</span><div><b>Полный сервис</b><p>От продажи до сборки и доставки. Бесплатный выезд на замер перед заказом.</p></div></div>
-<div class="adv-row"><span class="an">03</span><div><b>Продавцы высокого уровня обслуживания</b><p>Консультанты, которые подбирают мебель под ваш бюджет и планировку, а не «впаривают».</p></div></div>
-<div class="adv-row"><span class="an">04</span><div><b>Ведущие бренды в одном магазине</b><p>Anrex, Black Red White, SV Мебель, ЭОС — европейское качество с сертификатами соответствия.</p></div></div>
-<div class="adv-row"><span class="an">05</span><div><b>Удобное расположение и парковка</b><p>Салоны вдоль автомагистрали с собственной бесплатной парковкой.</p></div></div>
-</div>
-</section>
-<section class="section" style="padding-top:0">
-<p class="s-kick">Дисконтная система</p>
-<h2>Акции <span class="ital">сейчас</span></h2>
-<div class="promos" style="margin-top:2.6rem">
-<div class="promo"><b>Наборы Dylan и Diego, гостиные Clover и Nicole</b><p>Коллекция Anrex в salon-акции: гостиные и наборы по специальным ценам. Уточняйте детали у консультантов.</p></div>
-<div class="promo"><b>Матрасы ЭОС: подушка в подарок</b><p>Купи матрас — получи подушку в подарок. Полный ассортимент ЭОС в салонах Home Мебель.</p></div>
-</div>
-</section>
-<section class="section" id="finance" style="padding-top:0">
-<p class="s-kick">Оплата</p>
-<h2>Мебель сейчас — <span class="ital">платёж потом</span></h2>
-<div class="finance" style="margin-top:2.6rem">
-<div class="fin"><span class="fv">6 мес</span><b>Рассрочка до 6 месяцев</b><p>Европейское качество в вашем доме уже сегодня.</p></div>
-<div class="fin"><span class="fv">3 года</span><b>Кредит до 3 лет</b><p>Для крупных комплектов и полного обустройства.</p></div>
-<div class="fin"><span class="fv">3–5%</span><b>Дисконтная система</b><p>Постоянная возможность покупки со скидкой.</p></div>
-</div>
-</section>
-<section class="section" id="stores" style="padding-top:0">
-<p class="s-kick">Контакты</p>
-<h2>Три салона — <span class="ital">рядом с вами</span></h2>
-<div class="stores" style="margin-top:2.6rem">
-<div class="store"><span class="st-c">Жодино</span><h3>ул. Ленина, 3А</h3><p>ПН–ПТ 10:00–19:00<br>СБ–ВС 10:00–17:00</p><a href="tel:+375291378877">+375 (29) 137-88-77</a><a href="tel:+375445195203">+375 (44) 519-52-03</a><a href="tel:+375177547177">+375 (1775) 4-71-77</a><a href="viber://chat?number=%2B375445195203">Написать в Viber</a></div>
-<div class="store"><span class="st-c">Борисов</span><h3>ул. Гагарина, 50Б</h3><p>ПН–ПТ 10:00–19:00<br>СБ–ВС 10:00–17:00</p><a href="tel:+375447778032">+375 (44) 777-80-32</a><a href="tel:+375177774677">+375 (1777) 7-46-77</a></div>
-<div class="store"><span class="st-c">Смолевичи</span><h3>ул. Социалистическая, 70</h3><p>ПН–ПТ 10:00–20:00<br>СБ–ВС 10:00–19:00</p><a href="tel:+375445195204">+375 (44) 519-52-04</a><a href="mailto:Sm_koronetmebel@mail.ru">Sm_koronetmebel@mail.ru</a></div>
-</div>
-</section>
-<section class="cta">
-<p class="s-kick">Заявка</p>
-<h2>Начните с <span class="ital">бесплатного</span> замера</h2>
-<p style="color:var(--dim);margin-top:1rem;font-size:.9rem">Приедем, замерим, подберём варианты под бюджет — и привезём со сборкой от 2 дней.</p>
-<a class="mbtn" href="tel:+375291378877" data-mag style="margin-top:2.2rem">Позвонить: +375 (29) 137-88-77</a>
-</section>
+<div id="bg3d"></div><div class="grain"></div>
+<div id="loader" aria-hidden="true"><div class="loader-num"><span id="loadPct">000</span>% out of 100%</div><div class="loader-name">HOME MEBEL</div></div>
+<header class="site"><div class="wrap row"><a class="brand" href="#top">HOME MEBEL<small>ЖОДИНО · БОРИСОВ · СМОЛЕВИЧИ</small></a><nav class="mainnav"><a href="#rooms">Салон</a><a href="catalog.html">Каталог</a><a href="#stores">Салоны</a><a href="#cta">Контакты</a></nav><a class="btn magnetic" href="tel:+375291378877">+375 (29) 137-88-77</a></div></header>
+<main id="top">
+<section class="hero wrap" id="hero"><span class="kicker" data-rev>Салон мебели · с ценами от производителя</span><h1 class="hero-t serif" id="heroT">Мебель, <span class="ital">которая</span> живёт с вами</h1><p class="hero-sub" data-rev>Anrex, Black Red White, SV Мебель и ЭОС — более 5 000 элементов мебели европейского качества без дилерских наценок. Подберём под ваш бюджет; от продажи до доставки и сборки — полный сервис.</p><div class="hero-cta" data-rev><a class="btn magnetic" href="catalog.html">Выбрать мебель</a><a class="btn-o magnetic" href="tel:+375291378877">+375 (29) 137-88-77</a></div><div class="hero-hint">Листайте — камера идёт по салону</div></section>
+<div class="marquee"><div class="in"><span>Anrex</span><b>·</b><span>Black Red White</span><b>·</b><span>SV Мебель</span><b>·</b><span>ЭОС</span><b>·</b><span>Без дилерских наценок</span><b>·</b><span>Рассрочка до 6 месяцев</span><b>·</b><span>Anrex</span><b>·</b><span>Black Red White</span><b>·</b><span>SV Мебель</span><b>·</b><span>ЭОС</span><b>·</b><span>Без дилерских наценок</span><b>·</b><span>Рассрочка до 6 месяцев</span><b>·</b></div></div>
+<section class="blk" id="rooms"><div class="wrap"><span class="sec-k" data-rev>Салон</span><h2 class="sec-t serif" data-rev>Пройдитесь по дому — <em>камера идёт с вами</em></h2><div class="rooms-cap"><div class="room-cap" data-rev><b>Гостиная</b><span>Диваны и стенки Anrex — велюр, шенилл, фасады под бетон и дуб.</span></div><div class="room-cap" data-rev><b>Спальня</b><span>Кровати, комоды и матрасы ЭОС — ортопедия и тихий сон.</span></div><div class="room-cap" data-rev><b>Столовая</b><span>Обеденные группы Black Red White — от компактных до парадных.</span></div></div></div></section>
+<section class="blk"><div class="wrap"><span class="sec-k" data-rev>Цифры</span><h2 class="sec-t serif" data-rev>Почему к нам <em>едут из трёх городов</em></h2><div class="stats" style="margin-top:2.5rem"><div class="stat"><b data-count="5000">0</b><span>элементов мебели, каталог постоянно обновляется</span></div><div class="stat"><b data-count="3">0</b><span>салона — Жодино, Борисов, Смолевичи</span></div><div class="stat"><b data-count="36">0</b><span>месяцев гарантии на мебель</span></div><div class="stat"><b data-count="2">0</b><span>дня — минимальный срок выполнения заказа</span></div></div></div></section>
+<section class="blk"><div class="wrap"><span class="sec-k" data-rev>Условия</span><h2 class="sec-t serif" data-rev>Комфортные и <em>выгодные</em> условия</h2><div class="conds"><div class="cond" data-rev><i>01</i><div><b>Первые поставщики в РБ</b><span>Работаем без дилерских наценок — цены от производителя.</span></div></div><div class="cond" data-rev><i>02</i><div><b>Рассрочка до 6 месяцев и кредит до 3 лет</b><span>Оформляем на месте; график подбираем под ваш бюджет.</span></div></div><div class="cond" data-rev><i>03</i><div><b>Полный сервис</b><span>От продажи до сборки и доставки — вам привозят готовую мебель.</span></div></div><div class="cond" data-rev><i>04</i><div><b>Скидка 3–5% на комплекты</b><span>Дисконт при покупке набора мебели для одной комнаты.</span></div></div><div class="cond" data-rev><i>05</i><div><b>Бесплатный выезд на замер</b><span>Поможем всё продумать до покупки — и не ошибиться с размерами.</span></div></div></div></div></section>
+<section class="blk"><div class="wrap"><span class="sec-k" data-rev>Акции</span><h2 class="sec-t serif" data-rev>Что <em>забирают</em> чаще всего</h2><div class="stock"><div data-rev><b>Мягкие наборы Anrex: <em>Dylan, Diego, Clover, Nicole</em></b><span>Диван + кресло + пуф — скидка 3–5% на комплект, рассрочка до 6 месяцев.</span></div><div data-rev><b>Матрасы ЭОС</b><span>При покупке матраса — подушка в подарок. Ортопедические модели для любой кровати.</span></div></div><p style="margin-top:1.6rem;color:var(--mut);font-size:.8rem" data-rev>Ассортимент каждой группы — в <a href="catalog.html" style="color:var(--caramel2);text-decoration:underline">каталоге</a>: от 20 топовых моделей в группе, всего до 150 позиций и растём.</p></div></section>
+<section class="blk" id="stores"><div class="wrap"><span class="sec-k" data-rev>Салоны</span><h2 class="sec-t serif" data-rev>Три города — <em>один стандарт</em></h2><div class="stores"><div class="store" data-rev><h3>Жодино</h3><p>ул. Ленина, 3А<br>ПН–ПТ 10:00–19:00 · СБ–ВС 10:00–17:00</p><a class="tel" href="tel:+375291378877">+375 (29) 137-88-77</a><br><a class="tel" href="tel:+375445195203">+375 (44) 519-52-03</a><br><a class="tel" href="tel:+375177547177">+375 (1775) 4-71-77</a></div><div class="store" data-rev><h3>Борисов</h3><p>ул. Гагарина, 50Б<br>ПН–ПТ 10:00–19:00 · СБ–ВС 10:00–17:00</p><a class="tel" href="tel:+375447778032">+375 (44) 777-80-32</a><br><a class="tel" href="tel:+375177774677">+375 (1777) 7-46-77</a></div><div class="store" data-rev><h3>Смолевичи</h3><p>ул. Социалистическая, 70<br>ПН–ПТ 10:00–20:00 · СБ–ВС 10:00–19:00</p><a class="tel" href="tel:+375445195204">+375 (44) 519-52-04</a></div></div><p style="margin-top:1.4rem;font-size:.78rem;color:var(--mut)" data-rev>Почта: <a href="mailto:Sm_koronetmebel@mail.ru" style="color:var(--caramel2)">Sm_koronetmebel@mail.ru</a> · Напишите нам в <a href="viber://chat?number=%2B375445195203" style="color:var(--caramel2)">Viber</a></p></div></section>
+<section class="blk cta-final" id="cta"><div class="wrap"><h2 class="serif" data-rev>Приезжайте — или <em>попросите привезти</em></h2><p data-rev>Выберите мебель в каталоге и оставьте заявку: подберём цвет, ткань и финансирование.</p><div class="hero-cta" style="justify-content:center" data-rev><a class="btn magnetic" href="catalog.html">В каталог</a><a class="btn-o magnetic" href="tel:+375291378877">Позвонить</a></div></div></section>
 </main>
-<footer><span>© Home Мебель · салон мебели и аксессуаров · Жодино · Борисов · Смолевичи</span><span>Интерьеры на сайте — визуализации · сайт: <a href="https://sitefast.by">SiteFast.by</a></span></footer>
-<a class="wm" href="https://sitefast.by">⚡ <b>SiteFast.by</b></a>
+<footer class="site"><div class="wrap cols"><div><b style="color:var(--ink)">HOME MEBEL</b><br>Салон мебели и аксессуаров<br>с ценами от производителя</div><div>Жодино, ул. Ленина, 3А<br>Борисов, ул. Гагарина, 50Б<br>Смолевичи, ул. Социалистическая, 70</div><div><a href="tel:+375291378877" style="color:var(--caramel2)">+375 (29) 137-88-77</a><br><a href="mailto:Sm_koronetmebel@mail.ru">Sm_koronetmebel@mail.ru</a><br>Сайт: <a href="https://sitefast.by" style="text-decoration:underline">SiteFast.by</a></div></div></footer>
+<a class="wm-badge" href="https://sitefast.by">⚡ <b>SiteFast.by</b></a>
+<div class="cursor-dot" id="cDot"></div><div class="cursor-ring" id="cRing"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script>
 (function(){
-var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-/* ===== WebGL фон: тёплое дыхание комнаты ===== */
-try{
-if(window.THREE&&!reduce){
- var canvas=document.getElementById('gl'),renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:false});
- renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));
- var scene=new THREE.Scene(),cam=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
- var uni={uTime:{value:0},uMouse:{value:new THREE.Vector2(.5,.5)},uRes:{value:new THREE.Vector2(1,1)}};
- scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),new THREE.ShaderMaterial({uniforms:uni,
- vertexShader:'void main(){gl_Position=vec4(position,1.0);}',
- fragmentShader:[
- 'precision highp float;uniform float uTime;uniform vec2 uMouse;uniform vec2 uRes;',
- 'float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}',
- 'float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);',
- ' return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);}',
- 'float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*noise(p);p*=2.03;a*=.5;}return v;}',
- 'void main(){vec2 uv=gl_FragCoord.xy/uRes;uv.x*=uRes.x/uRes.y;',
- ' float d=distance(uv,uMouse);',
- ' float t=uTime*.06;',
- ' float f=fbm(uv*1.6+vec2(t,-t*.7));',
- ' f+= .22*exp(-d*3.2);', // тёплый отклик на курсор
- ' vec3 deep=vec3(.074,.063,.059);',  // эспрессо
- ' vec3 glow=vec3(.784,.608,.416);', // карамель
- ' vec3 col=mix(deep,deep+glow*.34,smoothstep(.35,.95,f));',
- ' col+=glow*0.10*exp(-d*2.0);',
- ' gl_FragColor=vec4(col,1.0);}'].join('\n')})));
- function size(){var w=innerWidth,h=innerHeight;renderer.setSize(w,h);uni.uRes.value.set(w,h)}
- size();addEventListener('resize',size);
- var tx=.5,ty=.5;
- addEventListener('pointermove',function(e){tx=e.clientX/innerWidth;ty=1-e.clientY/innerHeight},{passive:true});
- (function tick(t){uni.uTime.value=t/1000;
-  uni.uMouse.value.x+=(tx-uni.uMouse.value.x)*.05;
-  uni.uMouse.value.y+=(ty-uni.uMouse.value.y)*.05;
-  renderer.render(scene,cam);requestAnimationFrame(tick)})(0);
-}}catch(e){canvas.style.display='none'}
-/* ===== курсор ===== */
-var cur=document.querySelector('.cur'),ring=document.querySelector('.cur-ring'),cx=0,cy=0,rx=0,ry=0;
-if(matchMedia('(hover:hover) and (pointer:fine)').matches){
- addEventListener('pointermove',function(e){cx=e.clientX;cy=e.clientY},{passive:true});
- (function loop(){rx+=(cx-rx)*.16;ry+=(cy-ry)*.16;
-  cur.style.transform='translate('+(cx-4)+'px,'+(cy-4)+'px)';
-  ring.style.transform='translate('+(rx-19)+'px,'+(ry-19)+'px)';requestAnimationFrame(loop)})();
- document.querySelectorAll('a,button').forEach(function(el){
-  el.addEventListener('pointerenter',function(){ring.style.width='64px';ring.style.height='64px'});
-  el.addEventListener('pointerleave',function(){ring.style.width='38px';ring.style.height='38px'})});
+'use strict';
+var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ---------- CURSOR ---------- */
+var dot=document.getElementById('cDot'),ring=document.getElementById('cRing'),mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+addEventListener('pointermove',function(e){mx=e.clientX;my=e.clientY;});
+function cursor(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;
+ if(dot){dot.style.transform='translate('+mx+'px,'+my+'px)';}
+ if(ring){ring.style.transform='translate('+(rx-17)+'px,'+(ry-17)+'px)';}
+ requestAnimationFrame(cursor);}cursor();
+/* ---------- MAGNETIC ---------- */
+document.querySelectorAll('.magnetic').forEach(function(el){
+ el.addEventListener('pointermove',function(e){var r=el.getBoundingClientRect();
+  el.style.transform='translate('+((e.clientX-r.left-r.width/2)*.25)+'px,'+((e.clientY-r.top-r.height/2)*.35)+'px)';});
+ el.addEventListener('pointerleave',function(){el.style.transform='';});});
+/* ---------- LENIS ---------- */
+var lenis=null;
+if(!rm && window.Lenis){lenis=new Lenis({duration:1.25,smoothWheel:true});
+ if(window.gsap){lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(function(t){lenis.raf(t*1000);gsap.ticker.lagSmoothing(0);});}
+ else{function raf(t){lenis.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);}}
+/* ---------- 3D: камера облетает салон ---------- */
+var scrollP=0;
+function onScroll(){var h=document.documentElement;scrollP=h.scrollTop/(Math.max(1,h.scrollHeight-h.clientHeight));}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+var threeOK=false;
+function init3D(){
+ if(!window.THREE||rm)return;
+ try{
+ var host=document.getElementById('bg3d');
+ var scene=new THREE.Scene();scene.background=new THREE.Color(0x161210);scene.fog=new THREE.Fog(0x161210,5,26);
+ var cam=new THREE.PerspectiveCamera(58,innerWidth/innerHeight,.1,60);
+ var rnd=new THREE.WebGLRenderer({antialias:true});rnd.setPixelRatio(Math.min(devicePixelRatio,1.5));rnd.setSize(innerWidth,innerHeight);host.appendChild(rnd.domElement);
+ function box(w,h,d,c,x,y,z,ry){var m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshStandardMaterial({color:c,roughness:.85}));m.position.set(x,y,z);if(ry)m.rotation.y=ry;scene.add(m);return m;}
+ function glow(x,y,z,w,h,c){var m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:c}));m.position.set(x,y,z);scene.add(m);return m;}
+ var FLOOR=0x4e3524,WALL=0x2A211A,DARK=0x241c15,WOOD=0x6b4a2f,FABRIC=0x8a5f3a,FABRIC2=0xa07a4e,CREAM=0xcbbba4;
+ function room(z){
+  var g=new THREE.PlaneGeometry(11,10),fl=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:FLOOR,roughness:.9}));fl.rotation.x=-Math.PI/2;fl.position.set(0,0,z);scene.add(fl);
+  var ce=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:0x1c1611}));ce.rotation.x=Math.PI/2;ce.position.set(0,3,z);scene.add(ce);
+  box(11,3,.25,WALL,0,1.5,z-5);         /* дальняя стена */
+  box(.25,3,10,WALL,-5.5,1.5,z);        /* левая */
+  box(.25,3,10,WALL,5.5,1.5,z);        /* правая */
+  glow(-5.3,1.7,z+2,0.02,2.6,0xffc98a); /* тёплое окно слева */
+  var l=new THREE.PointLight(0xffb46b,1.15,10,2);l.position.set(0,2.6,z);scene.add(l);
+ }
+ room(0);room(-12);room(-24);
+ /* стены-проёмы между комнатами (с проходом по центру) */
+ box(3.6,3,.3,DARK,-3.7,1.5,-6);box(3.6,3,.3,DARK,3.7,1.5,-6);
+ box(3.6,3,.3,DARK,-3.7,1.5,-18);box(3.6,3,.3,DARK,3.7,1.5,-18);
+ /* ГОСТИНАЯ */
+ box(2.6,.45,1,FABRIC,-1.6,.45,.4);box(2.6,.5,.3,FABRIC,-1.6,.8,-.15);box(.9,.5,.9,FABRIC2,-1.6,.55,1.6);
+ box(1.1,.9,.9,FABRIC2,1.7,.45,.6,-.4);                      /* кресло */
+ box(1.2,.35,.6,WOOD,0,.35,.9);                              /* столик */
+ box(1.8,.4,.45,DARK,-.3,.2,-2.2);box(.9,1.6,.08,CREAM,-.3,.9,-2.35); /* ТВ */
+ var rug=new THREE.Mesh(new THREE.PlaneGeometry(3.4,2.4),new THREE.MeshStandardMaterial({color:0x7c5b3c,roughness:.95}));rug.rotation.x=-Math.PI/2;rug.position.set(-.3,.01,.6);scene.add(rug);
+ /* СПАЛЬНЯ */
+ box(1.9,.35,2.1,WOOD,0,.3,-11.6);box(1.9,.25,2,FABRIC2,0,.55,-11.6);box(1.9,.9,.12,WOOD,0,.7,-12.6);
+ box(.5,.5,.5,WOOD,-1.35,.3,-12.3);box(.5,.5,.5,WOOD,1.35,.3,-12.3);
+ glow(-1.35,.55,-12.2,.12,.12,0xffd9a0);glow(1.35,.55,-12.2,.12,.12,0xffd9a0);
+ box(2.4,2.4,.6,DARK,-2.2,1.2,-10.2);                       /* шкаф */
+ var rug2=rug.clone();rug2.position.set(0,.01,-11.2);scene.add(rug2);
+ /* СТОЛОВАЯ */
+ box(1.7,.08,.95,WOOD,0,.75,-24);box(1.5,.7,.8,DARK,0,.35,-24);
+ [[-.8,-24],[0,-24],[.8,-24]].forEach(function(p){box(.42,.9,.42,CREAM,p[0],.45,p[1]+.85);});
+ box(1.8,.9,.4,WOOD,2.6,.45,-24.8);                        /* буфет */
+ glow(0,2.6,-23.8,.3,.3,0xffd9a0);
+ var curve=new THREE.CatmullRomCurve3([
+  new THREE.Vector3(0,1.55,7),new THREE.Vector3(-1.2,1.6,2),
+  new THREE.Vector3(1.1,1.7,-3),new THREE.Vector3(-.6,1.55,-8.5),
+  new THREE.Vector3(.9,1.65,-14),new THREE.Vector3(-1,1.55,-20),
+  new THREE.Vector3(.6,1.6,-26.5),new THREE.Vector3(0,1.62,-28.4)
+ ]);
+ var pmx=0,pmy=0;addEventListener('pointermove',function(e){pmx=(e.clientX/innerWidth-.5);pmy=(e.clientY/innerHeight-.5);});
+ addEventListener('resize',function(){cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();rnd.setSize(innerWidth,innerHeight);});
+ var t0=performance.now();
+ (function draw(){
+  var t=Math.min(.985,Math.max(0,scrollP));
+  var p=curve.getPointAt(t),look=curve.getPointAt(Math.min(.99,t+.05));
+  p.x+=pmx*.35;p.y+=-pmy*.22;
+  cam.position.copy(p);cam.lookAt(look);
+  rnd.render(scene,cam);requestAnimationFrame(draw);})();
+ threeOK=true;
+ }catch(e){/* тихо остаёмся на градиенте */}
 }
-/* ===== магнитные кнопки ===== */
-document.querySelectorAll('[data-mag]').forEach(function(el){
- el.addEventListener('pointermove',function(e){
-  var r=el.getBoundingClientRect();
-  var x=(e.clientX-r.left-r.width/2)*.22,y=(e.clientY-r.top-r.height/2)*.32;
-  el.style.transform='translate('+x+'px,'+y+'px)'});
- el.addEventListener('pointerleave',function(){el.style.transform=''});
-});
-/* ===== прелоадер ===== */
-var loader=document.getElementById('loader'),lpct=document.getElementById('lpct'),p=0,fake=null;
-function startLoader(){fake=setInterval(function(){p=Math.min(96,p+Math.random()*9);
- lpct.textContent=String(Math.floor(p)).padStart(3,'0');if(p>=96)clearInterval(fake)},120)}
-function finishLoader(){clearInterval(fake);lpct.textContent='100';
- setTimeout(function(){loader.classList.add('done');
-  if(window.gsap&&window.ScrollTrigger){heroIntro()}},350)}
-if(reduce){loader.style.display='none'}
-else{startLoader();
- window.addEventListener('load',finishLoader);
- setTimeout(function(){if(!loader.classList.contains('done'))finishLoader()},6000)}
-/* ===== GSAP: hero, пин комнат, счётчики, параллакс ===== */
-function wrapChars(node){
- if(node.nodeType===3){
-  var frag=document.createDocumentFragment();
-  node.textContent.split('').forEach(function(c){
-   var sp=document.createElement('span');sp.className='c';
-   sp.innerHTML=(c===' '?'&nbsp;':c);frag.appendChild(sp)});
-  return frag}
- if(node.nodeType===1){
-  Array.prototype.slice.call(node.childNodes).forEach(function(ch){node.replaceChild(wrapChars(ch),ch)})}
- return node}
+init3D();
+/* ---------- PRELOADER + HERO ---------- */
+function wrapNode(node){
+ if(node.nodeType===3){var frag=document.createDocumentFragment();
+  node.textContent.split(/(\s+)/).forEach(function(w){
+   if(/^\s+$/.test(w)||w===''){frag.appendChild(document.createTextNode(w));return;}
+   var wd=document.createElement('span');wd.className='ch-word';
+   w.split('').forEach(function(c){var s=document.createElement('span');s.className='c';s.innerHTML=c;wd.appendChild(s);});
+   frag.appendChild(wd);});
+  return frag;}
+ if(node.nodeType===1){Array.prototype.slice.call(node.childNodes).forEach(function(ch){node.replaceChild(wrapNode(ch),ch);});return node;}
+ return node;}
 function heroIntro(){
- var h=document.getElementById('heroT');
- Array.prototype.slice.call(h.childNodes).forEach(function(n){h.replaceChild(wrapChars(n),n)});
+ var h=document.getElementById('heroT');if(!h)return;
+ Array.prototype.slice.call(h.childNodes).forEach(function(n){h.replaceChild(wrapNode(n),n);});
  var cs=h.querySelectorAll('.c');
- gsap.set(cs,{yPercent:110,rotate:3,opacity:0});
- gsap.to(cs,{yPercent:0,rotate:0,opacity:1,duration:1.1,stagger:.024,ease:'expo.out',delay:.1});
- gsap.from('.h-kick,.h-sub,.h-cta',{y:26,opacity:0,duration:.9,stagger:.12,ease:'power3.out',delay:.4});
+ if(!window.gsap){return;}
+ gsap.set(cs,{yPercent:115,rotate:4,opacity:0});
+ gsap.to(cs,{yPercent:0,rotate:0,opacity:1,duration:.9,stagger:.014,ease:'power4.out',delay:.15});
+ gsap.utils.toArray('[data-rev]').forEach(function(el){
+  gsap.from(el,{y:34,opacity:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}});});
 }
-if(window.gsap&&window.ScrollTrigger&&!reduce){
- gsap.registerPlugin(ScrollTrigger);
- /* плавный скролл Lenis */
- var lenis=null;
- if(window.Lenis){lenis=new Lenis({duration:1.15,smoothWheel:true});
-  lenis.on('scroll',ScrollTrigger.update);
-  gsap.ticker.add(function(t){lenis.raf(t*1000)});
-  gsap.ticker.lagSmoothing(0)}
- /* hero побуквенно при загрузке (если лоадер пропущен) */
- if(loader.classList.contains('done')||loader.style.display==='none'){heroIntro()}
- /* комнаты: горизонтальный пин только на широких экранах */
- ScrollTrigger.matchMedia({
-  '(min-width: 901px)':function(){
-   var track=document.getElementById('roomsTrack');
-   var getScroll=function(){return track.scrollWidth-innerWidth};
-   gsap.to(track,{x:function(){return -getScroll()},ease:'none',
-    scrollTrigger:{trigger:'#roomsPin',start:'top top',end:function(){return '+='+(getScroll()+innerHeight*.4)},scrub:1,pin:true,invalidateOnRefresh:true}});
-  },
-  '(max-width: 900px)':function(){
-   gsap.utils.toArray('.room').forEach(function(r){
-    gsap.from(r,{y:40,opacity:0,duration:.8,ease:'power2.out',
-     scrollTrigger:{trigger:r,start:'top 85%'}})});
-  }
- });
- /* заголовки секций */
- gsap.utils.toArray('h2,.s-kick').forEach(function(el){
-  gsap.from(el,{y:34,opacity:0,duration:.9,ease:'power3.out',
-   scrollTrigger:{trigger:el,start:'top 88%'}})});
- /* преимущества — строки */
- gsap.utils.toArray('.adv-row').forEach(function(row,i){
-  gsap.from(row,{y:30,opacity:0,duration:.7,delay:i*.04,ease:'power2.out',
-   scrollTrigger:{trigger:row,start:'top 90%'}})});
- /* параллакс картинок комнат */
- gsap.utils.toArray('.room img').forEach(function(img){
-  gsap.fromTo(img,{yPercent:-8},{yPercent:8,ease:'none',
-   scrollTrigger:{trigger:img.closest('.room'),start:'top bottom',end:'bottom top',scrub:true}})});
- /* счётчики */
- gsap.utils.toArray('.stat b').forEach(function(b){
-  var target=+b.dataset.count,obj={v:0};
-  ScrollTrigger.create({trigger:b,start:'top 88%',once:true,onEnter:function(){
-   gsap.to(obj,{v:target,duration:1.6,ease:'power2.out',onUpdate:function(){
-    b.textContent=Math.round(obj.v).toLocaleString('ru-RU')}})}});
- });
- /* страницы чуть всплывают */
- gsap.utils.toArray('.section').forEach(function(s){
-  gsap.from(s,{opacity:0,duration:1.2,scrollTrigger:{trigger:s,start:'top 92%'}})});
-}
+function counts(){
+ document.querySelectorAll('[data-count]').forEach(function(el){
+  var target=+el.getAttribute('data-count');
+  if(!window.gsap||rm){el.textContent=target;return;}
+  var o={v:0};gsap.to(o,{v:target,duration:1.6,ease:'power2.out',
+   scrollTrigger:{trigger:el,start:'top 90%'},
+   onUpdate:function(){el.textContent=Math.round(o.v);}});});}
+counts();
+(function(){
+ var loader=document.getElementById('loader'),pct=document.getElementById('loadPct');
+ if(!loader){return;}
+ if(rm||!window.gsap){loader.style.display='none';heroIntro();return;}
+ var o={v:0},done=false;
+ gsap.to(o,{v:100,duration:2.1,ease:'power2.inOut',onUpdate:function(){
+   pct.textContent=String(Math.round(o.v)).padStart(3,'0');},
+  onComplete:function(){if(done)return;done=true;loader.classList.add('done');
+   setTimeout(function(){loader.style.display='none';},1100);heroIntro();}});
+})();
 })();
 </script></body></html>
