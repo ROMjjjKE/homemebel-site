@@ -82,7 +82,7 @@ footer.site .cols{display:flex;gap:2rem;flex-wrap:wrap;justify-content:space-bet
 @media(hover:none){.cursor-dot,.cursor-ring{display:none}}
 @media(max-width:760px){nav.mainnav{display:none}.stock{grid-template-columns:1fr}h1.hero-t{max-width:12ch}}
 
-.grow{position:relative;height:100svh}
+.grow{position:relative;height:100svh;z-index:3}
 .grow-pin{position:relative;height:100svh;display:flex;align-items:center;overflow:hidden}
 .grow-in{padding-top:5rem}
 .grow-in .hero-t{font-size:clamp(2.3rem,6.6vw,5.4rem);max-width:13ch}
@@ -234,12 +234,17 @@ counts();
   document.head.appendChild(st);return;
  }
  setP(0);
- ScrollTrigger.create({
+ var trig=ScrollTrigger.create({
   trigger:sec,start:'top top',end:function(){return '+='+Math.round(innerHeight*3.2);},
-  pin:'.grow-pin',scrub:true,anticipatePin:1,invalidateOnRefresh:true,
-  onUpdate:function(self){setP(self.progress);growDone=self.progress>=.995&&self.direction>=0||self.progress>=1;},
+  pin:sec,pinSpacing:true,scrub:true,anticipatePin:1,invalidateOnRefresh:true,
+  onUpdate:function(self){setP(self.progress);growDone=self.progress>=.999;},
   onLeave:function(){growDone=true;},onEnterBack:function(){growDone=false;}
  });
+ /* раскладка меняется после шрифтов, прелоадера и разбивки заголовка: пересчитываем позиции */
+ function rf(){try{ScrollTrigger.refresh();}catch(e){}}
+ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(rf);
+ addEventListener('load',function(){setTimeout(rf,200);setTimeout(rf,1500);});
+ window.__growRefresh=rf;
 })();
 
 (function(){
@@ -250,7 +255,7 @@ counts();
  gsap.to(o,{v:100,duration:2.1,ease:'power2.inOut',onUpdate:function(){
    pct.textContent=String(Math.round(o.v)).padStart(3,'0');},
   onComplete:function(){if(done)return;done=true;loader.classList.add('done');
-   setTimeout(function(){loader.style.display='none';},1100);heroIntro();}});
+   setTimeout(function(){loader.style.display='none';if(window.__growRefresh)window.__growRefresh();},1100);heroIntro();setTimeout(function(){if(window.__growRefresh)window.__growRefresh();},900);}});
 })();
 })();
 </script></body></html>
