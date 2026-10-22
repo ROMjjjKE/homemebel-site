@@ -148,17 +148,25 @@ addEventListener('scroll',onScroll,{passive:true});onScroll();
  vid.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none';
  host.appendChild(vid);
  vid.addEventListener('canplay',function(){videoOK=true;vid.style.display='block';});
+ vid.addEventListener('loadeddata',function(){videoOK=true;vid.style.display='block';});
  vid.addEventListener('error',function(){vid.remove();});
- if(rm){ctx.fillStyle='#161210';ctx.fillRect(0,0,cv.width,cv.height);fit(imgs[0],0,0);return;}
+ /* iOS не грузит видео без жеста: прогреваем play+pause */
+ function warm(){try{var p=vid.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
+ vid.load();
+ addEventListener('pointerdown',warm,{once:true,passive:true});
+ addEventListener('touchstart',warm,{once:true,passive:true});
+ if(!rm){warm();}
  (function draw(){
-  sp+=(scrollP-sp)*.07;
-  if(videoOK&&vid.duration>0){vid.currentTime=Math.max(0,Math.min(vid.duration-.06,sp*(vid.duration-.06)));}
-  var f=sp*(FR-1),a=Math.floor(f),t=f-a;
-  var im=imgs[a];
-  ctx.fillStyle='#161210';ctx.fillRect(0,0,cv.width,cv.height);
-  if(im.complete&&im.naturalWidth)fit(im,mx*.012,-my*.01);
-  if(t>0&&a<FR-1){var im2=imgs[a+1];
-   if(im2.complete&&im2.naturalWidth){ctx.globalAlpha=Math.min(1,t);fit(im2,mx*.012,-my*.01);ctx.globalAlpha=1;}}
+  sp=rm?scrollP:sp+(scrollP-sp)*.07;
+  try{
+   if(videoOK&&vid.duration>0){vid.currentTime=Math.max(0,Math.min(vid.duration-.06,sp*(vid.duration-.06)));}
+   var f=sp*(FR-1),a=Math.floor(f),t=f-a;
+   var im=imgs[a];
+   ctx.fillStyle='#161210';ctx.fillRect(0,0,cv.width,cv.height);
+   if(im.complete&&im.naturalWidth)fit(im,mx*.012,-my*.01);
+   if(t>0&&a<FR-1){var im2=imgs[a+1];
+    if(im2.complete&&im2.naturalWidth){ctx.globalAlpha=Math.min(1,t);fit(im2,mx*.012,-my*.01);ctx.globalAlpha=1;}}
+  }catch(e){}
   requestAnimationFrame(draw);
  })();
 })();
