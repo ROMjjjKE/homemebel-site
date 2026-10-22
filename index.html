@@ -94,6 +94,15 @@ footer.site .cols{display:flex;gap:2rem;flex-wrap:wrap;justify-content:space-bet
 .grow-bar i{display:block;height:100%;width:0;background:var(--caramel2)}
 .grow .hero-cta{margin-top:1.4rem}
 @media(max-width:760px){.phases{min-height:11rem}.grow-in .hero-t{max-width:10ch}}
+
+@media(min-width:900px){
+ .grow-in{display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+ .grow-in>*{max-width:34rem}
+ .grow-in .hero-t{max-width:11ch}
+ .phases{margin-left:auto;text-align:right}
+ .ph{left:auto;right:0}
+ .grow .hero-cta{justify-content:flex-end}
+}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body>
 <div id="bg3d"></div><div class="grain"></div>
@@ -158,7 +167,7 @@ var growP=0,growDone=false; /* 0..1 прогресс сцены роста, уп
  host.appendChild(vid);
  /* затемнение для читаемости текста, снимается к финалу сцены */
  var veil=document.createElement('div');
- veil.style.cssText='position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(20,18,16,.78) 0%,rgba(20,18,16,.35) 55%,rgba(20,18,16,.1) 100%)';
+ veil.style.cssText='position:absolute;inset:0;pointer-events:none;background:linear-gradient(270deg,rgba(20,18,16,.82) 0%,rgba(20,18,16,.55) 38%,rgba(20,18,16,0) 70%)';
  host.appendChild(veil);
  var ready=false;
  function mark(){ready=true;}
