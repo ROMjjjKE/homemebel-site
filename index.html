@@ -4,7 +4,7 @@
 ::selection{background:var(--caramel);color:#14100C}
 .serif{font-family:Cormorant,serif}
 .mono{font-family:'PT Mono',monospace}
-#bg3d{position:fixed;inset:0;z-index:0}
+#bg3d{position:fixed;inset:0;z-index:0;transition:opacity .8s ease}
 .grain{position:fixed;inset:-50%;z-index:2;pointer-events:none;opacity:.5;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E");animation:grain 8s steps(10) infinite}
 @keyframes grain{0%{transform:translate(0,0)}50%{transform:translate(5%,3%)}100%{transform:translate(-3%,4%)}}
 #loader{position:fixed;inset:0;z-index:99;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;transition:none}
@@ -148,7 +148,7 @@ if(!rm && window.Lenis){lenis=new Lenis({duration:1.25,smoothWheel:true});
  if(window.gsap){lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(function(t){lenis.raf(t*1000);gsap.ticker.lagSmoothing(0);});}
  else{function raf(t){lenis.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);}}
 /* ---------- ФОН: комната, в которой мебель вырастает из пола (скраб по скроллу) ---------- */
-var growP=0; /* 0..1 прогресс сцены роста, управляется pin-секцией */
+var growP=0,growDone=false; /* 0..1 прогресс сцены роста, управляется pin-секцией */
 (function initGrow(){
  var host=document.getElementById('bg3d');if(!host)return;
  var vid=document.createElement('video');
@@ -180,6 +180,7 @@ var growP=0; /* 0..1 прогресс сцены роста, управляет�
    var sc=1.04+cur*.06;
    vid.style.transform='translate('+(-mx*10)+'px,'+(-my*6)+'px) scale('+sc+')';
    veil.style.opacity=String(1-Math.min(1,cur*1.05));
+   host.style.opacity=growDone?'.28':'1';
   }catch(e){}
   requestAnimationFrame(draw);
  })();
@@ -236,7 +237,8 @@ counts();
  ScrollTrigger.create({
   trigger:sec,start:'top top',end:function(){return '+='+Math.round(innerHeight*3.2);},
   pin:'.grow-pin',scrub:true,anticipatePin:1,invalidateOnRefresh:true,
-  onUpdate:function(self){setP(self.progress);}
+  onUpdate:function(self){setP(self.progress);growDone=self.progress>=.995&&self.direction>=0||self.progress>=1;},
+  onLeave:function(){growDone=true;},onEnterBack:function(){growDone=false;}
  });
 })();
 
