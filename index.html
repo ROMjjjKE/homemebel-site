@@ -99,7 +99,6 @@ footer.site .cols{display:flex;gap:2rem;flex-wrap:wrap;justify-content:space-bet
 <footer class="site"><div class="wrap cols"><div><b style="color:var(--ink)">HOME MEBEL</b><br>Салон мебели и аксессуаров<br>с ценами от производителя</div><div>Жодино, ул. Ленина, 3А<br>Борисов, ул. Гагарина, 50Б<br>Смолевичи, ул. Социалистическая, 70</div><div><a href="tel:+375291378877" style="color:var(--caramel2)">+375 (29) 137-88-77</a><br><a href="mailto:Sm_koronetmebel@mail.ru">Sm_koronetmebel@mail.ru</a><br>Сайт: <a href="https://sitefast.by" style="text-decoration:underline">SiteFast.by</a></div></div></footer>
 <a class="wm-badge" href="https://sitefast.by">⚡ <b>SiteFast.by</b></a>
 <div class="cursor-dot" id="cDot"></div><div class="cursor-ring" id="cRing"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
@@ -124,63 +123,39 @@ var lenis=null;
 if(!rm && window.Lenis){lenis=new Lenis({duration:1.25,smoothWheel:true});
  if(window.gsap){lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(function(t){lenis.raf(t*1000);gsap.ticker.lagSmoothing(0);});}
  else{function raf(t){lenis.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);}}
-/* ---------- 3D: камера идёт по салону сквозь двери ---------- */
+/* ---------- ФОН: скраб по кадрам видеопрохода ---------- */
 var scrollP=0;
 function onScroll(){var h=document.documentElement;scrollP=h.scrollTop/(Math.max(1,h.scrollHeight-h.clientHeight));}
 addEventListener('scroll',onScroll,{passive:true});onScroll();
-(function init3D(){
- var host=document.getElementById('bg3d');if(!host||!window.THREE)return;
- var scene=new THREE.Scene();scene.background=new THREE.Color(0x15100b);scene.fog=new THREE.Fog(0x15100b,4,30);
- var cam=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,80);
- var rnd=new THREE.WebGLRenderer({antialias:true});rnd.setPixelRatio(Math.min(devicePixelRatio,1.5));rnd.setSize(innerWidth,innerHeight);host.appendChild(rnd.domElement);
- var SEG=13,DOORW=1.5,DOORH=2.3,ROOMS=4;
- var M={floor:new THREE.MeshStandardMaterial({color:0x4a3222,roughness:.9}),
-  wall:new THREE.MeshStandardMaterial({color:0x2a211a,roughness:.95}),
-  ceil:new THREE.MeshStandardMaterial({color:0x1b1510,roughness:1}),
-  tun:new THREE.MeshStandardMaterial({color:0x120d08,roughness:1,side:THREE.DoubleSide}),
-  door:new THREE.MeshStandardMaterial({color:0x6b4a2f,roughness:.7})};
- var texMats=[];
- function plane(w,h,mat,x,y,z,rx,ry){var m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),mat);m.position.set(x,y,z);if(rx)m.rotation.x=rx;if(ry)m.rotation.y=ry;scene.add(m);return m;}
- function box(w,h,d,mat,x,y,z){var m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);scene.add(m);return m;}
- var tints=[0x4a3222,0x44352c,0x3d2f24,0x463228];
- for(var i=0;i<ROOMS;i++){
-  var z0=-i*SEG,z1=z0-SEG,cz=z0-SEG/2;
-  plane(SEG,4.6,M.floor,0,0,cz,-Math.PI/2,0);
-  plane(SEG,4.6,M.ceil,0,3,cz,Math.PI/2,0);
-  plane(SEG,3,M.wall,-2.3,1.5,cz,0,Math.PI/2);
-  plane(SEG,3,M.wall,2.3,1.5,cz,0,-Math.PI/2);
-  var light=new THREE.PointLight(0xffb46b,1.15,17,2);light.position.set(0,2.6,cz);scene.add(light);
-  var photoMat=new THREE.MeshBasicMaterial({color:tints[i]});
-  plane(4.5,2.95,photoMat,0,1.5,z1+0.02,0,0);
-  texMats.push(photoMat);
-  box(0.12,DOORH+0.12,0.26,M.door,-(DOORW/2+0.06),DOORH/2,z1-0.13);
-  box(0.12,DOORH+0.12,0.26,M.door,(DOORW/2+0.06),DOORH/2,z1-0.13);
-  box(DOORW+0.24,0.12,0.26,M.door,0,DOORH+0.06,z1-0.13);
-  if(i<ROOMS-1){
-   plane(1.1,DOORH,M.tun,-DOORW/2,DOORH/2,z1-0.55,0,Math.PI/2);
-   plane(1.1,DOORH,M.tun,DOORW/2,DOORH/2,z1-0.55,0,-Math.PI/2);
-   plane(DOORW,1.1,M.tun,0,DOORH,z1-0.55,Math.PI/2,0);
-   plane(DOORW,1.1,M.tun,0,0.01,z1-0.55,-Math.PI/2,0);
-  }
+(function initWalk(){
+ var host=document.getElementById('bg3d');if(!host)return;
+ var cv=document.createElement('canvas');cv.style.cssText='width:100%;height:100%;display:block';
+ host.appendChild(cv);
+ var ctx=cv.getContext('2d');
+ var FR=13,imgs=[];
+ for(var i=1;i<=FR;i++){var im=new Image();im.src='assets/w/f'+(i<10?'0':'')+i+'.jpg';imgs.push(im);}
+ function fit(im,dx,dy){
+  var W=cv.width,H=cv.height,iw=im.naturalWidth||16,ih=im.naturalHeight||9;
+  var s=Math.max(W/iw,H/ih)*1.03,w=iw*s,h=ih*s;
+  ctx.drawImage(im,(W-w)/2+dx*W,(H-h)/2+dy*H,w,h);
  }
- var loader=new THREE.TextureLoader();
- ['assets/r0.jpg','assets/r1.jpg','assets/r2.jpg','assets/r3.jpg'].forEach(function(u,k){
-  loader.load(u,function(t){t.anisotropy=rnd.capabilities.getMaxAnisotropy();texMats[k].map=t;texMats[k].color.set(0xffffff);texMats[k].needsUpdate=true;});
- });
- scene.add(new THREE.AmbientLight(0x51392a,0.75));
- var ZSTART=6,ZEND=-(ROOMS-1)*SEG-SEG+1.6;
- var sp=scrollP,mx=0,my=0;
+ function size(){cv.width=Math.min(innerWidth,1500);cv.height=Math.round(cv.width*innerHeight/innerWidth);}
+ addEventListener('resize',size);size();
+ var mx=0,my=0,sp=scrollP;
  addEventListener('pointermove',function(e){mx=(e.clientX/innerWidth-.5);my=(e.clientY/innerHeight-.5);});
- addEventListener('resize',function(){cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();rnd.setSize(innerWidth,innerHeight);});
- if(rm){cam.position.set(0,1.6,ZSTART-6);cam.lookAt(0,1.55,ZSTART-7);rnd.render(scene,cam);return;}
+ if(rm){ctx.fillStyle='#161210';ctx.fillRect(0,0,cv.width,cv.height);fit(imgs[0],0,0);return;}
  (function draw(){
-  sp+=(scrollP-sp)*.05;
-  var z=ZSTART+(ZEND-ZSTART)*sp;
-  cam.position.set(Math.sin(sp*Math.PI*4)*0.3,1.6,z);
-  cam.rotation.x=my*0.06;cam.rotation.y=-mx*0.09;
-  rnd.render(scene,cam);requestAnimationFrame(draw);
+  sp+=(scrollP-sp)*.07;
+  var f=sp*(FR-1),a=Math.floor(f),t=f-a;
+  var im=imgs[a];
+  ctx.fillStyle='#161210';ctx.fillRect(0,0,cv.width,cv.height);
+  if(im.complete&&im.naturalWidth)fit(im,mx*.012,-my*.01);
+  if(t>0&&a<FR-1){var im2=imgs[a+1];
+   if(im2.complete&&im2.naturalWidth){ctx.globalAlpha=Math.min(1,t);fit(im2,mx*.012,-my*.01);ctx.globalAlpha=1;}}
+  requestAnimationFrame(draw);
  })();
 })();
+
 
 /* ---------- PRELOADER + HERO ---------- */
 function wrapNode(node){
