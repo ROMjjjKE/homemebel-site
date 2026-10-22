@@ -116,6 +116,15 @@ footer.site .cols{display:flex;gap:2rem;flex-wrap:wrap;justify-content:space-bet
  .grow .hero-cta .btn,.grow .hero-cta .btn-o{flex:1;text-align:center;padding:.8rem .6rem;font-size:.74rem}
  .hero-hint{display:none}
 }
+
+.gv-fill{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#161210;object-position:50% 50%}
+.gv-fit{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;pointer-events:none}
+.gv-veil{position:absolute;inset:0;pointer-events:none;background:linear-gradient(270deg,rgba(20,18,16,.82) 0%,rgba(20,18,16,.55) 38%,rgba(20,18,16,0) 70%)}
+@media(max-width:759px){
+ .gv-fill{filter:blur(18px) brightness(.45);transform:scale(1.25)}
+ .gv-fit{opacity:1}
+ .gv-veil{background:linear-gradient(0deg,rgba(20,18,16,.92) 0%,rgba(20,18,16,.6) 40%,rgba(20,18,16,0) 70%)}
+}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body>
 <div id="bg3d"></div><div class="grain"></div>
@@ -173,34 +182,37 @@ if(!rm && window.Lenis){lenis=new Lenis({duration:1.25,smoothWheel:true});
 var growP=0,growDone=false; /* 0..1 прогресс сцены роста, управляется pin-секцией */
 (function initGrow(){
  var host=document.getElementById('bg3d');if(!host)return;
- var vid=document.createElement('video');
- vid.src='assets/grow.mp4';vid.poster='assets/grow_first.jpg';
- vid.muted=true;vid.playsInline=true;vid.preload='auto';vid.setAttribute('muted','');vid.setAttribute('playsinline','');
- vid.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#161210;object-position:'+(innerWidth<760?'18% 50%':'50% 50%');
- host.appendChild(vid);
+ var isMob=function(){return innerWidth<760;};
+ function mkVideo(cls){
+  var v=document.createElement('video');
+  v.src='assets/grow.mp4';v.poster='assets/grow_first.jpg';
+  v.muted=true;v.playsInline=true;v.preload='auto';v.setAttribute('muted','');v.setAttribute('playsinline','');
+  v.className=cls;host.appendChild(v);return v;}
+ /* два слоя одного видео: заливка (cover) и вписанный кадр (contain, виден только на мобильном) */
+ var vFill=mkVideo('gv-fill'),vFit=mkVideo('gv-fit');
  /* затемнение для читаемости текста, снимается к финалу сцены */
  var veil=document.createElement('div');
- veil.style.cssText='position:absolute;inset:0;pointer-events:none;background:'+(innerWidth<760?'linear-gradient(0deg,rgba(20,18,16,.92) 0%,rgba(20,18,16,.72) 42%,rgba(20,18,16,0) 72%)':'linear-gradient(270deg,rgba(20,18,16,.82) 0%,rgba(20,18,16,.55) 38%,rgba(20,18,16,0) 70%)');
- host.appendChild(veil);
- var ready=false;
- function mark(){ready=true;}
- vid.addEventListener('loadeddata',mark);vid.addEventListener('canplay',mark);
+ veil.className='gv-veil';host.appendChild(veil);
+ var ready=0;
+ function mark(){ready++;}
+ [vFill,vFit].forEach(function(v){v.addEventListener('loadeddata',mark);v.addEventListener('canplay',mark);});
  /* iOS: прогрев play/pause по первому жесту */
- function warm(){try{var p=vid.play();if(p&&p.then)p.then(function(){vid.pause();}).catch(function(){});}catch(e){}}
+ function warm(){[vFill,vFit].forEach(function(v){try{var p=v.play();if(p&&p.then)p.then(function(){v.pause();}).catch(function(){});}catch(e){}});}
  addEventListener('pointerdown',warm,{once:true,passive:true});addEventListener('touchstart',warm,{once:true,passive:true});
- vid.load();
+ vFill.load();vFit.load();
  var cur=0,mx=0,my=0;
  addEventListener('pointermove',function(e){mx=(e.clientX/innerWidth-.5);my=(e.clientY/innerHeight-.5);},{passive:true});
  (function draw(){
   cur+=(growP-cur)*.12;
   try{
-   if(ready&&vid.duration>0){
-    var t=Math.max(0,Math.min(vid.duration-.05,cur*(vid.duration-.05)));
-    if(Math.abs(vid.currentTime-t)>.012)vid.currentTime=t;
+   if(ready>=2&&vFill.duration>0){
+    var t=Math.max(0,Math.min(vFill.duration-.05,cur*(vFill.duration-.05)));
+    [vFill,vFit].forEach(function(v){if(Math.abs(v.currentTime-t)>.012)v.currentTime=t;});
    }
    /* лёгкий параллакс видео за курсором + медленный наезд по ходу роста */
    var sc=1.04+cur*.06;
-   vid.style.transform='translate('+(-mx*10)+'px,'+(-my*6)+'px) scale('+sc+')';
+   if(!isMob())vFill.style.transform='translate('+(-mx*10)+'px,'+(-my*6)+'px) scale('+sc+')';
+   vFit.style.transform='scale('+(1.02+cur*.03)+')';
    veil.style.opacity=String(1-Math.min(1,cur*1.05));
    host.style.opacity=growDone?'.28':'1';
   }catch(e){}
