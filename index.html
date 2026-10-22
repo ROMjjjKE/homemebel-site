@@ -143,9 +143,16 @@ addEventListener('scroll',onScroll,{passive:true});onScroll();
  addEventListener('resize',size);size();
  var mx=0,my=0,sp=scrollP;
  addEventListener('pointermove',function(e){mx=(e.clientX/innerWidth-.5);my=(e.clientY/innerHeight-.5);});
+ var vid=document.createElement('video'),videoOK=false;
+ vid.src='assets/walk.mp4';vid.muted=true;vid.playsInline=true;vid.preload='auto';
+ vid.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none';
+ host.appendChild(vid);
+ vid.addEventListener('canplay',function(){videoOK=true;vid.style.display='block';});
+ vid.addEventListener('error',function(){vid.remove();});
  if(rm){ctx.fillStyle='#161210';ctx.fillRect(0,0,cv.width,cv.height);fit(imgs[0],0,0);return;}
  (function draw(){
   sp+=(scrollP-sp)*.07;
+  if(videoOK&&vid.duration>0){vid.currentTime=Math.max(0,Math.min(vid.duration-.06,sp*(vid.duration-.06)));}
   var f=sp*(FR-1),a=Math.floor(f),t=f-a;
   var im=imgs[a];
   ctx.fillStyle='#161210';ctx.fillRect(0,0,cv.width,cv.height);
