@@ -103,6 +103,19 @@ footer.site .cols{display:flex;gap:2rem;flex-wrap:wrap;justify-content:space-bet
  .ph{left:auto;right:0;width:100%}
  .grow .hero-cta{justify-content:flex-end}
 }
+
+@media(max-width:759px){
+ .grow-pin{align-items:flex-end}
+ .grow-in{padding-top:0;padding-bottom:1.6rem}
+ .grow-in .hero-t{font-size:clamp(2rem,9.4vw,2.8rem);max-width:none;margin-top:.6rem}
+ .grow-in .kicker{font-size:.58rem;letter-spacing:.22em}
+ .phases{min-height:7.6rem;margin-top:.9rem;max-width:none}
+ .ph{font-size:.85rem}
+ .ph b{font-size:1.25rem}
+ .grow .hero-cta{margin-top:.9rem;gap:.6rem}
+ .grow .hero-cta .btn,.grow .hero-cta .btn-o{flex:1;text-align:center;padding:.8rem .6rem;font-size:.74rem}
+ .hero-hint{display:none}
+}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body>
 <div id="bg3d"></div><div class="grain"></div>
@@ -163,11 +176,11 @@ var growP=0,growDone=false; /* 0..1 прогресс сцены роста, уп
  var vid=document.createElement('video');
  vid.src='assets/grow.mp4';vid.poster='assets/grow_first.jpg';
  vid.muted=true;vid.playsInline=true;vid.preload='auto';vid.setAttribute('muted','');vid.setAttribute('playsinline','');
- vid.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#161210';
+ vid.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#161210;object-position:'+(innerWidth<760?'18% 50%':'50% 50%');
  host.appendChild(vid);
  /* затемнение для читаемости текста, снимается к финалу сцены */
  var veil=document.createElement('div');
- veil.style.cssText='position:absolute;inset:0;pointer-events:none;background:linear-gradient(270deg,rgba(20,18,16,.82) 0%,rgba(20,18,16,.55) 38%,rgba(20,18,16,0) 70%)';
+ veil.style.cssText='position:absolute;inset:0;pointer-events:none;background:'+(innerWidth<760?'linear-gradient(0deg,rgba(20,18,16,.92) 0%,rgba(20,18,16,.72) 42%,rgba(20,18,16,0) 72%)':'linear-gradient(270deg,rgba(20,18,16,.82) 0%,rgba(20,18,16,.55) 38%,rgba(20,18,16,0) 70%)');
  host.appendChild(veil);
  var ready=false;
  function mark(){ready=true;}
